@@ -142,8 +142,10 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     # Handle executable file.
     def handle_executable(self, abs_path, query_params):
+        """执行 python 脚本，然后将程序输出写入 response 的 body 中"""
         # Passing query parameters?
         if query_params:
+            # CGI 变量
             os.environ["REQUEST_METHOD"] = "GET"
             os.environ["QUERY_STRING"] = query_params
         cmd = "python " + abs_path

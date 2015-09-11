@@ -46,6 +46,7 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.log("abs_path is '%s'" % abs_path)
 
             # It isn't below the root path.
+            # 不允许通过 ../../ 的方式非法访问未授权目录
             if not self.is_parent_dir(self.Root_Directory, abs_path):
                 self.log("abs_path not below root directory")
                 msg = "Path '%s' not below root directory '%s'" % \
@@ -79,10 +80,14 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def create_abs_path(self):
         head = os.path.abspath(self.Root_Directory)
         result = os.path.normpath(head + self.path)
+        # os.path.normpath
+        # 规范路径, 比如 A//B, A/./B and A/foo/../B 都输出 A/B
         return result
 
     def is_parent_dir(self, left, right):
         return os.path.commonprefix([left, right]) == left
+        # os.path.commonprefix 获取几个路径中共同的前缀部分
+        # ['/a/bc/d', '/a/b/f', '/a/cb'] -> '/a/'
 
     def handle_file(self, abs_path):
         try:

@@ -28,6 +28,7 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         """
 
     # MIME types of files.
+    # key 为扩展名，value 为 mime-type 的字典
     File_Types = mimetypes.types_map
 
     # Classify and handle request.
