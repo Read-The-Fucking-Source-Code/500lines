@@ -130,7 +130,7 @@ class Templite(object):
         # 存最终结果
         code.add_line("append_result = result.append")
         code.add_line("extend_result = result.extend")
-        code.add_line("to_str = str") 
+        code.add_line("to_str = str")
         # 性能优化
 
         buffered = []
@@ -229,6 +229,7 @@ class Templite(object):
     def _expr_code(self, expr):
         """Generate a Python expression for `expr`."""
         # 支持 {{ foo }}, {{ foo|bar }}, {{ foo.bar }}
+        # 将局部变量替换为 c_ 开头的变量
         if "|" in expr:
             # 过滤器
             pipes = expr.split("|")
